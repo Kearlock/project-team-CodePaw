@@ -5,3 +5,14 @@
   font-weight: 400;
   font-style: normal;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body{
+  background-color: #060307;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
