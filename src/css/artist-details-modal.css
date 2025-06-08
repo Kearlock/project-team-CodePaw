@@ -171,15 +171,13 @@ p:last-child {
   width: 100%;
 }
 
-@media (max-width: 1024px) {
-  .album-card {
-    max-width: 311px; /* Tablet */
-  }
+.artist-meta-list {
+  grid-template-columns: repeat(2, max-content);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 320px) {
   .album-card {
-    max-width: 272px; /* Mobile */
+    max-width: 272px;
     width: 100%;
   }
 }
@@ -214,7 +212,6 @@ p:last-child {
   height: 20px;
 }
 
-
 .track-list {
   list-style: none;
   padding: 0;
@@ -241,7 +238,11 @@ p:last-child {
   height: 18px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  .album-card {
+    max-width: 311px;
+    width: 100%;
+  }
   .artist-modal-info {
     flex-direction: column;
     align-items: center;
@@ -252,14 +253,16 @@ p:last-child {
   }
 
   .artist-meta-list {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, max-content);
+    column-gap: 48px;
+    row-gap: 16px;
   }
 
   .artist-meta-list li {
-    white-space: normal;
+    white-space: nowrap;
   }
 }
+
 /* Приховую футер всередині модального вікна, щоб він не відображався під час перегляду модалки */
 .artist-modal .footer {
   display: none;
