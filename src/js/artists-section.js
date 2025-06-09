@@ -1,14 +1,18 @@
-import axios from 'axios';
-const API_URL = 'https://sound-wave.b.goit.study/api';
+import { fetchArtists, fetchArtistById } from './soundwave-api.js';
+
 let offset = 0;
 const limit = 8;
 let allArtists = [];
 
 let artistsContainer;
 let loadMoreBtn;
-let modal;
-let modalContent;
-let closeModal;
+
+function showLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) loader.classList.remove('hidden');
+}
+
+
 
 function getGenres(artist) {
     const genres = [
@@ -18,7 +22,7 @@ function getGenres(artist) {
         artist.strGenre2,
         artist.strGenre3,
         artist.strMood2,
-        artist.strMood3
+        artist.strMood3,
     ].filter(Boolean);
 
     return genres.length > 0 ? genres.join(', ') : 'N/A';
@@ -29,11 +33,15 @@ function createCard(artist) {
     card.className = 'artist-card';
 
     const img = document.createElement('img');
-    img.src = artist.strArtistThumb || 'https://placehold.co/150x150/cccccc/333333?text=No+Image';
+    img.src =
+        artist.strArtistThumb ||
+        'https://placehold.co/150x150/cccccc/333333?text=No+Image';
     img.alt = artist.strArtist || 'No Image';
     img.addEventListener('error', function () {
-        this.src = 'https://placehold.co/150x150/cccccc/333333?text=No+Image';
-        this.alt = 'No Image Available';
+        if (!this.src.includes('placehold.co')) {
+            this.src = 'https://placehold.co/150x150/cccccc/333333?text=No+Image';
+            this.alt = 'No Image Available';
+        }
     });
     card.appendChild(img);
 
@@ -50,107 +58,116 @@ function createCard(artist) {
 
     const shortInfoP = document.createElement('p');
     shortInfoP.className = 'artist-description';
-    shortInfoP.textContent = artist.strBiographyEN || 'No short info available.';
+    const bio = artist.strBiographyEN || 'No short info available.';
+    shortInfoP.textContent = bio.length > 200 ? bio.slice(0, 200) + '...' : bio;
     card.appendChild(shortInfoP);
 
     const learnMoreButton = document.createElement('button');
     learnMoreButton.className = 'learn-more-btn';
     learnMoreButton.textContent = 'Learn More';
-    learnMoreButton.addEventListener('click', () => {
-        showModal(artist);
-    });
+    learnMoreButton.dataset.artistId = artist.idArtist;
     card.appendChild(learnMoreButton);
 
     return card;
 }
 
-function showModal(artist) {
-    modalContent.innerHTML = '';
-
-    const modalTitle = document.createElement('h2');
-    modalTitle.textContent = artist.strArtist || 'Unknown Artist';
-    modalContent.appendChild(modalTitle);
-
-    const genresP = document.createElement('p');
-    const genresStrong = document.createElement('strong');
-    genresStrong.textContent = 'Genres: ';
-    genresP.appendChild(genresStrong);
-    genresP.append(getGenres(artist));
-    modalContent.appendChild(genresP);
-
-    const descriptionP = document.createElement('p');
-    descriptionP.textContent = artist.strBiographyEN || 'No detailed description available.';
-    modalContent.appendChild(descriptionP);
-
-    modal.style.display = 'flex';
-}
-
 async function loadArtistsDataAndDisplay() {
     try {
-        if (offset === 0) {
-            console.log(`Sending initial request to: ${API_URL}/artists`);
-            const response = await axios.get(`${API_URL}/artists`);
-            const data = response.data.artists;
+        showLoader();
 
-            if (!Array.isArray(data)) {
-                console.error('API response is not an array:', data);
-                loadMoreBtn.style.display = 'none';
+        if (offset === 0) {
+            const data = await fetchArtists();
+
+            const artistsArray = Array.isArray(data)
+                ? data
+                : Array.isArray(data.artists)
+                    ? data.artists
+                    : null;
+
+            if (!artistsArray) {
+                alert('Error: Received invalid data from server.');
+                loadMoreBtn?.classList.add('hidden');
                 return;
             }
-            allArtists = data;
-        }
 
-        if (offset >= allArtists.length) {
-            loadMoreBtn.style.display = 'none';
-            return;
+            allArtists = artistsArray;
         }
 
         const artistsToDisplay = allArtists.slice(offset, offset + limit);
-        artistsToDisplay.forEach((artist) => {
+        artistsToDisplay.forEach(artist => {
             const card = createCard(artist);
             artistsContainer.appendChild(card);
         });
 
         offset += limit;
 
-        loadMoreBtn.style.display = offset < allArtists.length ? 'block' : 'none';
-
-    } catch (error) {
-        console.error('Axios error during artist loading:', error);
-
-        if (axios.isAxiosError(error) && error.response) {
-            console.error('Status:', error.response.status);
-            console.error('Data:', error.response.data);
-            console.error('Headers:', error.response.headers);
-        } else if (error.request) {
-            console.error('No response received from API for the request.');
+        if (offset >= allArtists.length) {
+            loadMoreBtn?.classList.add('hidden');
         } else {
-            console.error('Error setting up the request:', error.message);
+            loadMoreBtn?.classList.remove('hidden');
         }
-
-        loadMoreBtn.style.display = 'none';
+    } catch (error) {
+        alert('Failed to load artists. Please try again later.');
+        loadMoreBtn?.classList.add('hidden');
+    } finally {
+        hideLoader();
     }
+}
+
+function createModal(artist) {
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'modal-overlay';
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+
+    modal.innerHTML = `
+        <button class="modal-close-btn">&times;</button>
+        <h2>${artist.strArtist || 'Unknown Artist'}</h2>
+        <img src="${artist.strArtistThumb || 'https://placehold.co/300x300?text=No+Image'}" alt="${artist.strArtist}" />
+        <p><strong>Genres:</strong> ${getGenres(artist)}</p>
+        <p>${artist.strBiographyEN || 'No biography available.'}</p>
+    `;
+
+    modalOverlay.appendChild(modal);
+    document.body.appendChild(modalOverlay);
+
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close-btn')) {
+            modalOverlay.remove();
+        }
+    });
 }
 
 function initArtistSection() {
     artistsContainer = document.getElementById('artistsContainer');
     loadMoreBtn = document.getElementById('loadMoreBtn');
-    modal = document.getElementById('modal');
-    modalContent = document.getElementById('modalContent');
-    closeModal = document.getElementById('closeModal');
 
-    closeModal.onclick = () => {
-        modal.style.display = 'none';
-    };
-
-    window.onclick = (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
-    };
+    if (!artistsContainer || !loadMoreBtn) return;
 
     loadMoreBtn.onclick = loadArtistsDataAndDisplay;
     loadArtistsDataAndDisplay();
+
+    artistsContainer.addEventListener('click', async (e) => {
+        if (e.target.classList.contains('learn-more-btn')) {
+            const artistId = e.target.dataset.artistId;
+            try {
+                const artistData = await fetchArtistById(artistId);
+                if (!artistData || !artistData.artists || !artistData.artists[0]) {
+                    alert('Artist details not found.');
+                    return;
+                }
+                createModal(artistData.artists[0]);
+            } catch (error) {
+                alert('Failed to load artist details.');
+            }
+        }
+    });
+}
+
+function hideLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) loader.classList.add('hidden');
 }
 
 export { initArtistSection };
