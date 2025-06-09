@@ -2,7 +2,7 @@ import axios from 'axios';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-// 🔄 Функції для керування лоадером
+// 🔄 Лоадер
 function showLoader() {
     document.body.classList.add('loading');
 }
@@ -20,7 +20,6 @@ const api = axios.create({
     },
 });
 
-// ➕ Interceptors — показ лоадера перед запитом
 api.interceptors.request.use(
     config => {
         showLoader();
@@ -32,7 +31,6 @@ api.interceptors.request.use(
     }
 );
 
-// ➖ Interceptors — приховування лоадера після відповіді/помилки
 api.interceptors.response.use(
     response => {
         hideLoader();
@@ -49,8 +47,7 @@ api.interceptors.response.use(
     }
 );
 
-// ========== Функції запитів ==========
-
+// ✅ Експортовані функції
 export async function fetchArtists() {
     const response = await api.get('/artists');
     return response.data;
