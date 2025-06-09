@@ -1,0 +1,51 @@
+.burger {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: block;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.mobile-menu.open {
+  display: flex;
+}
+
+.mobile-menu a {
+  color: white;
+  font-size: 2rem;
+  margin: 1rem 0;
+  text-decoration: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .burger,
+  .mobile-menu {
+    display: none !important;
+  }
+}
