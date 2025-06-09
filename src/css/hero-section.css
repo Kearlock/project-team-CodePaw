@@ -20,7 +20,7 @@
 }
 
 .hero-content {
-  width: 100%;
+  width: 280px;
   z-index: 2;
 }
 
@@ -99,6 +99,9 @@
 @media (min-width: 768px) {
   .hero {
     width: 100%;
+  }
+  .hero-content {
+    width: 704px;
   }
 
   .hero p {
