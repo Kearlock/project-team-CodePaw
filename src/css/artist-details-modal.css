@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(128, 128, 128, 0.6); /* серый полупрозрачный фон */
+  background: rgba(128, 128, 128, 0.6);
   z-index: 1000;
 }
 
@@ -25,7 +25,7 @@
 
 .artist-modal-content {
   position: relative;
-  background-color: #000000; /* чёрный фон самой модалки */
+  background-color: #000000;
   color: #fff;
   max-width: 1312px;
   width: 90%;
@@ -38,13 +38,13 @@
 
 .artist-modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 25px;
+  right: 25px;
   background: none;
   border: none;
   cursor: pointer;
-  width: 24px;
-  height: 24px;
+  width: 15px;
+  height: 15px;
   padding: 0;
   display: flex;
   align-items: center;
@@ -54,6 +54,7 @@
 .artist-modal-close svg {
   width: 14px;
   height: 14px;
+  fill: #fff;
 }
 
 .artist-modal-title {
@@ -73,8 +74,7 @@
 }
 
 .artist-modal-img {
-  max-width: 500px;
-  width: 100%;
+  width: 500px;
   height: auto;
   object-fit: contain;
   border-radius: 8px;
@@ -174,11 +174,22 @@ p:last-child {
 .artist-meta-list {
   grid-template-columns: repeat(2, max-content);
 }
+.icon {
+  fill: #fff;
+}
 
 @media (max-width: 320px) {
+  
   .album-card {
     max-width: 272px;
     width: 100%;
+  }
+  .artist-meta-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .artist-meta-list li {
+    white-space: normal;
   }
 }
 
@@ -252,14 +263,13 @@ p:last-child {
     grid-template-columns: 1fr;
   }
 
-  .artist-meta-list {
-    grid-template-columns: repeat(2, max-content);
-    column-gap: 48px;
-    row-gap: 16px;
-  }
-
-  .artist-meta-list li {
-    white-space: nowrap;
+  .artist-modal-img {
+    width: 654px;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
