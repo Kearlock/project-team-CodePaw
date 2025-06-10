@@ -3,3 +3,4 @@ import './js/artists-section.js';
 import './js/feedback-section.js';
 import './js/artist-details-modal.js';
 import './js/soundwave-api.js';
+import './js/header-scroll.js';
