@@ -15,9 +15,22 @@ document.addEventListener('DOMContentLoaded', () => {
       el: '.swiper-pagination',
       clickable: true,
       renderBullet: function (index, className) {
-        if (index === 0) return '<span class="' + className + ' bullet left" data-slide="0"></span>';
-        if (index === 1) return '<span class="' + className + ' bullet center" data-slide="middle"></span>';
-        if (index === 2) return '<span class="' + className + ' bullet right" data-slide="last"></span>';
+        if (index === 0)
+          return (
+            '<span class="' + className + ' bullet left" data-slide="0"></span>'
+          );
+        if (index === 1)
+          return (
+            '<span class="' +
+            className +
+            ' bullet center" data-slide="middle"></span>'
+          );
+        if (index === 2)
+          return (
+            '<span class="' +
+            className +
+            ' bullet right" data-slide="last"></span>'
+          );
         return '';
       },
       bulletClass: 'bullet',
@@ -64,11 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="star-container">
                 ${Array(5)
                   .fill()
-                  .map((_, i) => `
-                    <div class="star ${i < roundedRating ? 'star-filled' : 'star-empty'}">
-                      <svg width="20" height="20"><use href="/img/icons.svg#icon-star"></use></svg>
+                  .map(
+                    (_, i) => `
+                    <div class="star ${
+                      i < roundedRating ? 'star-filled' : 'star-empty'
+                    }">
+                      <svg width="20" height="20"><use href="../img/icons.svg#icon-star"></use></svg>
                     </div>
-                  `)
+                  `
+                  )
                   .join('')}
               </div>
             </div>
@@ -113,7 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   getFeedBack().then(data => {
     if (data) {
-      const feedBacks = Array.isArray(data) ? data : data.results || data.data || [];
+      const feedBacks = Array.isArray(data)
+        ? data
+        : data.results || data.data || [];
       createFeedBack(feedBacks);
     }
   });
