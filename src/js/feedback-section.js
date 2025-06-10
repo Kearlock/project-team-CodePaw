@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="star ${
                       i < roundedRating ? 'star-filled' : 'star-empty'
                     }">
-                      <svg width="20" height="20"><use href="../img/icons.svg#icon-star"></use></svg>
+                      <svg width="20" height="20"><use href="../../img/icons.svg#icon-star"></use></svg>
                     </div>
                   `
                   )
