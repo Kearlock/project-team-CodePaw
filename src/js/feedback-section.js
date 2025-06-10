@@ -48,34 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const url = baseURL + endPoint;
       const params = { limit: 12 };
       const res = await axios.get(url, { params });
-      console.log('API Data:', res.data);
       return res.data;
     } catch (e) {
-      console.error('Error fetching feedback:', e);
-      return null;
-    }
-  }
-
-  async function postFeedBack(name, rating, descr) {
-    try {
-      const baseURL = 'https://sound-wave.b.goit.study/api';
-      const endPoint = '/feedbacks';
-      const url = baseURL + endPoint;
-      const data = { name, rating, descr };
-      const res = await axios.post(url, data);
-      return res.data;
-    } catch (e) {
-      console.error('Error posting feedback:', e);
       return null;
     }
   }
 
   function createFeedBack(feedBacks) {
-    if (!Array.isArray(feedBacks)) {
-      console.error('feedBacks is not an array:', feedBacks);
-      return;
-    }
-
     const markup = feedBacks
       .map(({ _id, name, rating, descr }) => {
         const roundedRating = Math.round(rating);
@@ -93,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
                   .join('')}
               </div>
             </div>
-            <p class='feed-back--descr'>${descr || ''}</p>
-            <p class='feed-back--name'>${name || ''}</p>
+            <p class='feed-back-descr'>${descr || ''}</p>
+            <p class='feed-back-name'>${name || ''}</p>
           </div>
         `;
       })

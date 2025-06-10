@@ -1,4 +1,4 @@
-.feed-back {
+.feedback {
   scroll-margin-top: 64px;
 }
 
@@ -26,7 +26,7 @@
   justify-content: center;
 }
 
-.feed-back--descr {
+.feed-back-descr {
   font-family: "Epilogue", sans-serif;
   margin: 0 auto;
   font-weight: 700;
@@ -37,7 +37,7 @@
   margin-bottom: 32px;
 }
 
-.feed-back--name {
+.feed-back-name {
   font-weight: 600;
   font-size: 18px;
   line-height: 1.5;
@@ -100,17 +100,13 @@
     }
   }
 
-  .custom-prev {}
-
   .more-btn-icon {
     fill: #fff;
     width: 13px;
     height: 13px;
   }
 
-  .custom-next {}
-
-  .feed-back--descr {
+  .feed-back-descr {
     font-size: 26px;
     width: 518px;
   }
@@ -126,11 +122,11 @@
 
 /* Styles for Desktop devices */
 @media only screen and (min-width: 1440px) {
-  .feed-back {
+  .feedback {
     scroll-margin-top: 72px;
   }
 
-  .feed-back--descr {
+  .feed-back-descr {
     font-size: 32px;
     width: 866px;
   }
