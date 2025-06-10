@@ -1,7 +1,6 @@
 
 .header {
-  top: -180px;
-  left: 0;
+  
   width: 100%;
   z-index: 1000;
  
@@ -9,14 +8,7 @@
   margin: 0;
   padding: 0;
   transition: all .2s ease;
-  
-}
-
-
-.header.fixed {
-  position: fixed;
-transform: translateY(180px);
-background-color: #060307;
+ 
 }
 
 .container-header {
