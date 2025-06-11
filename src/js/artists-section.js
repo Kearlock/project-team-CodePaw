@@ -69,12 +69,14 @@ async function createCard(artist) {
     });
     card.appendChild(img);
 
-    const h3 = document.createElement('h3');
+  const h3 = document.createElement('h3');
+  h3.classList.add("artist-card-title");
     h3.textContent = fullArtist.strArtist || 'Unknown Artist';
     card.appendChild(h3);
 
-    const genresP = document.createElement('p');
-    const genresStrong = document.createElement('strong');
+  const genresP = document.createElement('p');
+  genresP.classList.add("genre-title");
+  const genresStrong = document.createElement('strong');
     genresStrong.textContent = 'Genres: ';
     genresP.appendChild(genresStrong);
 
