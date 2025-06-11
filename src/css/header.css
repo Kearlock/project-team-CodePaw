@@ -1,14 +1,14 @@
-
 .header {
-  
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: inherit;
   width: 100%;
   z-index: 1000;
- 
   height: 72px;
   margin: 0;
   padding: 0;
-  transition: all .2s ease;
- 
+  /* transition: all 0.2s ease; */
 }
 
 .container-header {
@@ -18,9 +18,7 @@
   flex-direction: row;
   padding: 16px 20px;
   max-width: 320px;
-
 }
-
 
 .header-menu-list {
   display: none;
@@ -29,19 +27,16 @@
 
 .header-logo {
   display: block;
-
 }
 
 .header-icon {
   fill: #764191;
-
 }
 
 .burger-btn {
   padding: 0;
   border: none;
   background-color: transparent;
-
 }
 
 .burger-icon {
@@ -68,8 +63,6 @@
     gap: 32px;
     align-items: center;
   }
-
-
 }
 
 .header-menu-list .header-menu-link {
@@ -93,4 +86,4 @@
   .container-header {
     max-width: 1312px;
   }
- }
+}
