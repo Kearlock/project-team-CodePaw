@@ -6,10 +6,10 @@ const loader = document.getElementById('loader');
 
 // ==== Лоадер ====
 function showLoader() {
-  loader?.classList.remove('is-hidden');
+  loader.classList.remove('is-hidden');
 }
 function hideLoader() {
-  loader?.classList.add('is-hidden');
+  loader.classList.add('is-hidden');
 }
 
 // ==== Модалка ====
@@ -27,38 +27,43 @@ function closeModal() {
 }
 
 function onEscKeyPress(e) {
-  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Escape') {
+    closeModal();
+  }
 }
 
 function onBackdropClick(e) {
-  if (e.target === backdrop) closeModal();
+  if (e.target === backdrop) {
+    closeModal();
+  }
 }
 
-backdrop.addEventListener('click', onBackdropClick);
 modal.addEventListener('click', e => {
   if (e.target.closest('[data-modal-close]')) {
     closeModal();
   }
 });
 
+backdrop.addEventListener('click', onBackdropClick);
+
 // ==== API-запрос ====
 async function fetchArtist(id) {
   try {
     showLoader();
     const response = await fetch(
-      `https://sound-wave.b.goit.study/api/artists/${id}/albums`
+      `https://sound-wave.b.goit.study/api/artists/${id}`
     );
     const data = await response.json();
     hideLoader();
     renderArtistModal(data);
   } catch (error) {
     hideLoader();
-    console.error('Ошибка получения данных:', error);
+    console.error('Error fetching artist:', error);
     alert('Не вдалося завантажити інформацію про виконавця.');
   }
 }
 
-// ==== Рендер ====
+// ==== Рендер модалки ====
 function renderArtistModal(data) {
   const {
     strArtist: name,
@@ -90,38 +95,36 @@ function renderArtistModal(data) {
 
   const tagsHTML = genres?.map(tag => `<li>${tag}</li>`).join('') || '';
 
-  const albumsHTML =
-    albumsList
-      ?.map(album => {
-        const { strAlbum, tracks } = album;
-        const trackItems =
-          tracks
-            ?.map(track => {
-              const link =
-                track.movie && track.movie !== 'null'
-                  ? `<a href="${track.movie}" target="_blank" rel="noopener">
-            <svg class="icon" width="24" height="24">
-              <use href="img/icons.svg#icon-youtube"></use>
-            </svg>
-          </a>`
-                  : '<span>null</span>';
+  const albumsHTML = albumsList
+    ?.map(album => {
+      const { strAlbum, tracks } = album;
+      const trackItems = tracks
+        .map(track => {
+          const link =
+            track.movie && track.movie !== 'null'
+              ? `<a href="${track.movie}" target="_blank" rel="noopener">
+                  <svg class="icon" width="24" height="24">
+                    <use href="img/icons.svg#icon-youtube"></use>
+                  </svg>
+                </a>`
+              : '';
 
-              return `<li><span>${track.strTrack}</span><span>${formatDuration(
-                track.intDuration
-              )}</span>${link}</li>`;
-            })
-            .join('') || '';
+          return `<li><span>${track.strTrack}</span><span>${formatDuration(
+            track.intDuration
+          )}</span>${link}</li>`;
+        })
+        .join('');
 
-        return `
-      <div class="album-card">
-        <h4>${strAlbum}</h4>
-        <div class="track-header">
-          <span>Track</span><span>Time</span><span>Link</span>
-        </div>
-        <ul class="track-list">${trackItems}</ul>
-      </div>`;
-      })
-      .join('') || '';
+      return `
+        <div class="album-card">
+          <h4>${strAlbum}</h4>
+          <div class="track-header">
+            <span>Track</span><span>Time</span><span>Link</span>
+          </div>
+          <ul class="track-list">${trackItems}</ul>
+        </div>`;
+    })
+    .join('');
 
   modalContent.innerHTML = `
     <button class="artist-modal-close" type="button" data-modal-close>
@@ -150,6 +153,7 @@ function renderArtistModal(data) {
   openModal();
 }
 
+// ==== Формат времени ====
 function formatDuration(ms) {
   const totalSec = Math.floor(ms / 1000);
   const min = Math.floor(totalSec / 60);
@@ -157,7 +161,7 @@ function formatDuration(ms) {
   return `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
-// ==== Слушатели на кнопки открытия ====
+// ==== Кнопки открытия ====
 document.querySelectorAll('.open-modal-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const id = btn.dataset.id;
