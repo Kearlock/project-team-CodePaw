@@ -1,59 +1,55 @@
-/*artist-section*/
-
-@media (min-width: 320px) {
-    .artists-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-
-    }
+/* Mobile First Styles */
 
 
+.artists-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
 
-    .artist-card {
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        overflow: hidden;
-        padding: 10px;
-        text-align: center;
-        background-color: #f9f9f9;
-        transition: transform 0.3s;
-    }
+}
 
-    .artist-card:hover {
-        transform: scale(1.03);
-    }
+.artist-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+    transition: transform 0.3s;
+}
 
-    .artist-card img {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-    }
+.artist-card:hover {
+    transform: scale(1.03);
+}
 
-    .load-more {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+.artist-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.load-more {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
-
 
 /* Tablet Styles */
 @media (min-width: 768px) {
 
-
     .artists-grid {
-        grid-template-columns: repeat(2, 1fr);
+        flex: 1 1 100%;
         gap: 24px;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -62,7 +58,7 @@
 
 
     .artists-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 32px;
     }
 
@@ -84,8 +80,4 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-}
-
-.hidden {
-    display: none;
 }
