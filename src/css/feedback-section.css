@@ -2,28 +2,29 @@
   scroll-margin-top: 64px;
 }
 
-.star-container {
+.rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.star-rating {
   display: flex;
   gap: 4px;
   margin-bottom: 32px;
 }
 
 .star {
-  width: 20px;
-  height: 20px;
+  font-size: 32px;
+  color: #764191;
 }
 
-.star-empty svg {
-  fill: #fff;
+.star.filled {
+  color: #764191;
 }
 
-.star-filled svg {
-  fill: #764191;
-}
-
-.rating {
-  display: flex;
-  justify-content: center;
+.star:not(.filled) {
+  color: #fff;
 }
 
 .feed-back-descr {

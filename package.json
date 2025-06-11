@@ -20,7 +20,9 @@
   "dependencies": {
     "axios": "^1.9.0",
     "izitoast": "^1.4.0",
+    "jquery": "^3.7.1",
     "modern-normalize": "^3.0.1",
+    "raty-js": "^4.3.0",
     "swiper": "^11.2.8",
     "swiper.js": "^1.0.0",
     "vite-plugin-full-reload": "^1.2.0",
