@@ -18,17 +18,25 @@ function hideLoader() {
 }
 
 function getGenres(artist) {
+    if (!artist || typeof artist !== 'object') return 'N/A';
+
+
+    // console.log('getGenres input:', artist);
+
     const genres = [
         artist.strGenre,
-        artist.strStyle,
-        artist.strMood,
         artist.strGenre2,
         artist.strGenre3,
+        artist.strStyle,
+        artist.strMood,
         artist.strMood2,
         artist.strMood3,
-    ].filter(Boolean);
+    ]
+        .filter(val => typeof val === 'string' && val.trim())
+        .map(val => val.trim())
+        .filter((val, idx, arr) => arr.indexOf(val) === idx);
 
-    return genres.length > 0 ? genres.join(', ') : 'N/A';
+    return genres.length ? genres.join(', ') : 'N/A';
 }
 
 async function createCard(artist) {
@@ -52,41 +60,52 @@ async function createCard(artist) {
     h3.textContent = artist.strArtist || 'Unknown Artist';
     card.appendChild(h3);
 
-    // Genres placeholder
     const genresP = document.createElement('p');
     const genresStrong = document.createElement('strong');
     genresStrong.textContent = 'Genres: ';
     genresP.appendChild(genresStrong);
-    const genresText = document.createTextNode('Loading genres...');
+
+    // Відразу встановлюємо genresText, спочатку з основних даних артиста
+    let genresTextContent = getGenres(artist);
+    const genresText = document.createTextNode(genresTextContent);
     genresP.appendChild(genresText);
     card.appendChild(genresP);
 
-    // Short description
     const shortInfoP = document.createElement('p');
     shortInfoP.className = 'artist-description';
     const bio = artist.strBiographyEN || 'No short info available.';
     shortInfoP.textContent = bio.length > 200 ? bio.slice(0, 200) + '...' : bio;
     card.appendChild(shortInfoP);
 
-    // Learn More button
     const learnMoreButton = document.createElement('button');
     learnMoreButton.className = 'learn-more-btn';
     learnMoreButton.textContent = 'Learn More';
-    learnMoreButton.dataset.artistId = artist.idArtist;
+
+    if (artist.idArtist) {
+        learnMoreButton.dataset.artistId = artist.idArtist;
+    } else {
+        learnMoreButton.disabled = true;
+    }
+
     card.appendChild(learnMoreButton);
 
-    // Fetch full artist details for genres
-    try {
-        const details = await fetchArtistById(artist.idArtist);
-        const fullArtist = details?.artists?.[0];
-        if (fullArtist) {
-            const genresStr = getGenres(fullArtist);
-            genresText.textContent = genresStr;
-        } else {
+
+    if (artist.idArtist) {
+        try {
+            const details = await fetchArtistById(artist.idArtist);
+            const fullArtist = details?.artists?.[0];
+
+            if (fullArtist) {
+                const updatedGenres = getGenres(fullArtist);
+                // console.log(`Updated genres for ${artist.strArtist}:`, updatedGenres);
+                genresText.textContent = updatedGenres;
+            } else {
+                genresText.textContent = 'N/A';
+            }
+        } catch (error) {
             genresText.textContent = 'N/A';
+            // console.warn(`Genre fetch failed for ID ${artist.idArtist}:`, error);
         }
-    } catch (error) {
-        genresText.textContent = 'N/A';
     }
 
     return card;
@@ -113,6 +132,7 @@ async function loadArtistsDataAndDisplay() {
             }
 
             allArtists = artistsArray;
+            artistsContainer.innerHTML = '';
         }
 
         const artistsToDisplay = allArtists.slice(offset, offset + limit);
@@ -151,6 +171,12 @@ function initArtistSection() {
     artistsContainer.addEventListener('click', async (e) => {
         if (e.target.classList.contains('learn-more-btn')) {
             const artistId = e.target.dataset.artistId;
+
+            if (!artistId) {
+                alert('Невідомий артист. Ідентифікатор відсутній.');
+                return;
+            }
+
             try {
                 const artistData = await fetchArtistById(artistId);
                 if (!artistData || !artistData.artists || !artistData.artists[0]) {
@@ -158,7 +184,7 @@ function initArtistSection() {
                     return;
                 }
 
-                console.log('Artist details:', artistData.artists[0]);
+                // console.log('Artist details:', artistData.artists[0]); // ← закоментовано
             } catch (error) {
                 alert('Failed to load artist details.');
             }
