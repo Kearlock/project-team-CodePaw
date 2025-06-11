@@ -1,10 +1,7 @@
-/* Модальное окно */
+/* ===== MODAL BASE ===== */
 .artist-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,9 +20,10 @@
   background: transparent;
 }
 
+/* ===== MODAL CONTENT ===== */
 .artist-modal-content {
   position: relative;
-  background-color: #000000;
+  background-color: #000;
   color: #fff;
   max-width: 1312px;
   width: 90%;
@@ -34,6 +32,7 @@
   padding: 64px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  margin: auto;
 }
 
 .artist-modal-close {
@@ -43,9 +42,8 @@
   background: none;
   border: none;
   cursor: pointer;
-  width: 15px;
-  height: 15px;
-  padding: 0;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,11 +72,14 @@
 }
 
 .artist-modal-img {
-  width: 500px;
+  width: 100%;
+  max-width: 654px;
   height: auto;
   object-fit: contain;
   border-radius: 8px;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .artist-modal-bio {
@@ -110,8 +111,6 @@
 .artist-meta-list li strong {
   display: block;
   font-weight: 600;
-  font-size: 18px;
-  line-height: 150%;
   margin-bottom: 2px;
 }
 
@@ -121,11 +120,14 @@
   font-size: 18px;
   line-height: 150%;
 }
-p:last-child {
+
+.artist-modal-bio p:last-child {
   font-weight: 400;
   font-size: 18px;
   line-height: 150%;
   margin-bottom: 24px;
+  max-height: 162px;
+  overflow-y: auto;
 }
 
 .artist-tags {
@@ -167,30 +169,7 @@ p:last-child {
   background-color: #2a2a2a;
   padding: 16px;
   border-radius: 10px;
-  max-width: 272px; /* Desktop */
   width: 100%;
-}
-
-.artist-meta-list {
-  grid-template-columns: repeat(2, max-content);
-}
-.icon {
-  fill: #fff;
-}
-
-@media (max-width: 320px) {
-  
-  .album-card {
-    max-width: 272px;
-    width: 100%;
-  }
-  .artist-meta-list {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  .artist-meta-list li {
-    white-space: normal;
-  }
 }
 
 .album-card h4 {
@@ -209,9 +188,6 @@ p:last-child {
 }
 
 .track-header {
-  display: grid;
-  grid-template-columns: 1fr 50px 30px;
-  align-items: center;
   padding: 4px 4px 4px 12px;
   font-size: 8px;
   font-weight: 600;
@@ -232,10 +208,6 @@ p:last-child {
 .track-list li {
   padding: 6px 8px;
   margin-bottom: 6px;
-  display: grid;
-  grid-template-columns: 1fr 50px 30px;
-  align-items: center;
-  gap: 8px;
   background-color: transparent;
   border-radius: 0;
 }
@@ -244,16 +216,24 @@ p:last-child {
   background-color: #3a3a3a;
   border-radius: 8px;
 }
-.track-list img {
+
+.track-list a svg {
   width: 18px;
   height: 18px;
 }
 
-@media (max-width: 767px) {
-  .album-card {
-    max-width: 311px;
-    width: 100%;
+.icon {
+  fill: #fff;
+}
+
+@media (max-width: 768px) {
+  .artist-modal-content {
+    width: 95%;
+    padding: 32px;
+    max-height: 90vh;
+    margin: auto;
   }
+
   .artist-modal-info {
     flex-direction: column;
     align-items: center;
@@ -263,17 +243,12 @@ p:last-child {
     grid-template-columns: 1fr;
   }
 
-  .artist-modal-img {
-    width: 654px;
-    height: auto;
-    max-width: 100%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  .artist-meta-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-}
 
-/* Приховую футер всередині модального вікна, щоб він не відображався під час перегляду модалки */
-.artist-modal .footer {
-  display: none;
+  .artist-meta-list li {
+    white-space: normal;
+  }
 }
