@@ -42,11 +42,14 @@
     }
 }
 
+.hidden {
+    display: none;
+}
+
+
 /* Tablet Styles */
 @media (min-width: 768px) {
-    body {
-        padding: 32px;
-    }
+
 
     .artists-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -56,14 +59,7 @@
 
 /* Desktop Styles */
 @media (min-width: 1440px) {
-    body {
-        padding: 64px;
-    }
 
-    h1,
-    h2 {
-        text-align: left;
-    }
 
     .artists-grid {
         grid-template-columns: repeat(4, 1fr);
@@ -88,4 +84,8 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+}
+
+.hidden {
+    display: none;
 }
