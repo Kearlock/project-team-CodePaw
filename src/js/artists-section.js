@@ -59,12 +59,14 @@ function createCard(artist) {
     genresP.append(getGenres(artist));
     card.appendChild(genresP);
 
+    // Опис під фото
     const shortInfoP = document.createElement('p');
     shortInfoP.className = 'artist-description';
     const bio = artist.strBiographyEN || 'No short info available.';
     shortInfoP.textContent = bio.length > 200 ? bio.slice(0, 200) + '...' : bio;
     card.appendChild(shortInfoP);
 
+    // Якщо треба, кнопка "Learn More"
     const learnMoreButton = document.createElement('button');
     learnMoreButton.className = 'learn-more-btn';
     learnMoreButton.textContent = 'Learn More';
