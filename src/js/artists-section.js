@@ -31,7 +31,7 @@ function getGenres(artist) {
     return genres.length > 0 ? genres.join(', ') : 'N/A';
 }
 
-function createCard(artist) {
+async function createCard(artist) {
     const card = document.createElement('div');
     card.className = 'artist-card';
 
@@ -52,26 +52,42 @@ function createCard(artist) {
     h3.textContent = artist.strArtist || 'Unknown Artist';
     card.appendChild(h3);
 
+    // Genres placeholder
     const genresP = document.createElement('p');
     const genresStrong = document.createElement('strong');
     genresStrong.textContent = 'Genres: ';
     genresP.appendChild(genresStrong);
-    genresP.append(getGenres(artist));
+    const genresText = document.createTextNode('Loading genres...');
+    genresP.appendChild(genresText);
     card.appendChild(genresP);
 
-    // Опис під фото
+    // Short description
     const shortInfoP = document.createElement('p');
     shortInfoP.className = 'artist-description';
     const bio = artist.strBiographyEN || 'No short info available.';
     shortInfoP.textContent = bio.length > 200 ? bio.slice(0, 200) + '...' : bio;
     card.appendChild(shortInfoP);
 
-    // Якщо треба, кнопка "Learn More"
+    // Learn More button
     const learnMoreButton = document.createElement('button');
     learnMoreButton.className = 'learn-more-btn';
     learnMoreButton.textContent = 'Learn More';
     learnMoreButton.dataset.artistId = artist.idArtist;
     card.appendChild(learnMoreButton);
+
+    // Fetch full artist details for genres
+    try {
+        const details = await fetchArtistById(artist.idArtist);
+        const fullArtist = details?.artists?.[0];
+        if (fullArtist) {
+            const genresStr = getGenres(fullArtist);
+            genresText.textContent = genresStr;
+        } else {
+            genresText.textContent = 'N/A';
+        }
+    } catch (error) {
+        genresText.textContent = 'N/A';
+    }
 
     return card;
 }
@@ -100,14 +116,12 @@ async function loadArtistsDataAndDisplay() {
         }
 
         const artistsToDisplay = allArtists.slice(offset, offset + limit);
-        artistsToDisplay.forEach(artist => {
-            const card = createCard(artist);
+        for (const artist of artistsToDisplay) {
+            const card = await createCard(artist);
             artistsContainer.appendChild(card);
-        });
+        }
 
         offset += limit;
-
-        console.log(`Loaded ${offset} of ${allArtists.length} artists`);
 
         if (offset >= allArtists.length) {
             loadMoreBtn?.classList.add('hidden');
