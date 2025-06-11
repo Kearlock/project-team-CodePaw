@@ -43,11 +43,24 @@ async function createCard(artist) {
     const card = document.createElement('div');
     card.className = 'artist-card';
 
+    // Завантажити детальні дані, якщо є id
+    let fullArtist = artist;
+    if (artist.idArtist) {
+        try {
+            const details = await fetchArtistById(artist.idArtist);
+            if (details?.artists?.[0]) {
+                fullArtist = details.artists[0];
+            }
+        } catch {
+            // якщо помилка — залишаємо початкові дані
+        }
+    }
+
     const img = document.createElement('img');
     img.src =
-        artist.strArtistThumb ||
+        fullArtist.strArtistThumb ||
         'https://placehold.co/150x150/cccccc/333333?text=No+Image';
-    img.alt = artist.strArtist || 'No Image';
+    img.alt = fullArtist.strArtist || 'No Image';
     img.addEventListener('error', function () {
         if (!this.src.includes('placehold.co')) {
             this.src = 'https://placehold.co/150x150/cccccc/333333?text=No+Image';
@@ -57,7 +70,7 @@ async function createCard(artist) {
     card.appendChild(img);
 
     const h3 = document.createElement('h3');
-    h3.textContent = artist.strArtist || 'Unknown Artist';
+    h3.textContent = fullArtist.strArtist || 'Unknown Artist';
     card.appendChild(h3);
 
     const genresP = document.createElement('p');
@@ -65,15 +78,13 @@ async function createCard(artist) {
     genresStrong.textContent = 'Genres: ';
     genresP.appendChild(genresStrong);
 
-    // Відразу встановлюємо genresText, спочатку з основних даних артиста
-    let genresTextContent = getGenres(artist);
-    const genresText = document.createTextNode(genresTextContent);
+    const genresText = document.createTextNode(getGenres(fullArtist));
     genresP.appendChild(genresText);
     card.appendChild(genresP);
 
     const shortInfoP = document.createElement('p');
     shortInfoP.className = 'artist-description';
-    const bio = artist.strBiographyEN || 'No short info available.';
+    const bio = fullArtist.strBiographyEN || 'No short info available.';
     shortInfoP.textContent = bio.length > 200 ? bio.slice(0, 200) + '...' : bio;
     card.appendChild(shortInfoP);
 
@@ -81,32 +92,13 @@ async function createCard(artist) {
     learnMoreButton.className = 'learn-more-btn';
     learnMoreButton.textContent = 'Learn More';
 
-    if (artist.idArtist) {
-        learnMoreButton.dataset.artistId = artist.idArtist;
+    if (fullArtist.idArtist) {
+        learnMoreButton.dataset.artistId = fullArtist.idArtist;
     } else {
         learnMoreButton.disabled = true;
     }
 
     card.appendChild(learnMoreButton);
-
-
-    if (artist.idArtist) {
-        try {
-            const details = await fetchArtistById(artist.idArtist);
-            const fullArtist = details?.artists?.[0];
-
-            if (fullArtist) {
-                const updatedGenres = getGenres(fullArtist);
-                // console.log(`Updated genres for ${artist.strArtist}:`, updatedGenres);
-                genresText.textContent = updatedGenres;
-            } else {
-                genresText.textContent = 'N/A';
-            }
-        } catch (error) {
-            genresText.textContent = 'N/A';
-            // console.warn(`Genre fetch failed for ID ${artist.idArtist}:`, error);
-        }
-    }
 
     return card;
 }
