@@ -180,7 +180,6 @@
   width: 100%;
 }
 
-<<<<<<< HEAD
 .artist-meta-list {
   grid-template-columns: repeat(2, max-content);
 }
@@ -205,8 +204,6 @@
   }
 }
 
-=======
->>>>>>> a974d0b3a86050136fdb0302d8c18ea651eef4ea
 .album-card h4 {
   margin-bottom: 12px;
   font-size: 18px;
