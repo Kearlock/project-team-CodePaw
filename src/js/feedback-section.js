@@ -4,6 +4,8 @@ import 'swiper/css/pagination';
 import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import axios from 'axios';
+import 'css-star-rating/css/star-rating.min.css';
+// import 'css-star-rating/dist/css/star-rating.min.css';
 
 const feedBack = document.querySelector('.swiper-wrapper');
 
@@ -48,8 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const url = baseURL + endPoint;
       const params = { limit: 12 };
       const res = await axios.get(url, { params });
+      console.log('API Data:', res.data);
       return res.data;
     } catch (e) {
+      console.error('Error fetching feedback:', e);
       return null;
     }
   }
@@ -57,20 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function createFeedBack(feedBacks) {
     const markup = feedBacks
       .map(({ _id, name, rating, descr }) => {
-        const roundedRating = Math.round(rating);
+        const roundedRating = Math.round(rating); // Округлення до цілого числа
+        console.log('Rating for', name, ':', roundedRating);
         return `
           <div class="swiper-slide" data-id="${_id || ''}">
-            <div class="rating value-${roundedRating}">
-              <div class="star-container">
-                ${Array(5)
-                  .fill()
-                  .map((_, i) => `
-                    <div class="star ${i < roundedRating ? 'star-filled' : 'star-empty'}">
-                      <svg width="20" height="20"><use href="/img/icons.svg#icon-star"></use></svg>
-                    </div>
-                  `)
-                  .join('')}
-              </div>
+            <div class="rating">
+              <div class="star-rating" data-rating="${roundedRating}"></div> <!-- Використовуємо округлений рейтинг -->
             </div>
             <p class='feed-back-descr'>${descr || ''}</p>
             <p class='feed-back-name'>${name || ''}</p>
@@ -88,11 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
     bullets.forEach(b => b.classList.remove('swiper-pagination-bullet-active'));
 
     if (index === 0) {
-      bullets[0].classList.add('swiper-pagination-bullet-active'); // first
+      bullets[0].classList.add('swiper-pagination-bullet-active');
     } else if (index === total - 1) {
-      bullets[2].classList.add('swiper-pagination-bullet-active'); // last
+      bullets[2].classList.add('swiper-pagination-bullet-active');
     } else {
-      bullets[1].classList.add('swiper-pagination-bullet-active'); // other
+      bullets[1].classList.add('swiper-pagination-bullet-active');
     }
   }
 

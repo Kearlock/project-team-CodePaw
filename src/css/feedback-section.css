@@ -2,23 +2,12 @@
   scroll-margin-top: 64px;
 }
 
-.star-container {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 32px;
-}
-
-.star {
-  width: 20px;
-  height: 20px;
-}
-
-.star-empty svg {
-  fill: #fff;
-}
-
-.star-filled svg {
-  fill: #764191;
+.star-rating {
+  --star-size: 20px;
+  --star-color: #764191;
+  --star-color-empty: #fff;
+  display: inline-block;
+  min-height: var(--star-size);
 }
 
 .rating {
