@@ -2,17 +2,29 @@
   scroll-margin-top: 64px;
 }
 
-.star-rating {
-  --star-size: 20px;
-  --star-color: #764191;
-  --star-color-empty: #fff;
-  display: inline-block;
-  min-height: var(--star-size);
-}
-
 .rating {
   display: flex;
   justify-content: center;
+  margin-bottom: 32px;
+}
+
+.star-rating {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 32px;
+}
+
+.star {
+  font-size: 32px;
+  color: #764191;
+}
+
+.star.filled {
+  color: #764191;
+}
+
+.star:not(.filled) {
+  color: #fff;
 }
 
 .feed-back-descr {

@@ -5,7 +5,6 @@ import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import axios from 'axios';
 import 'css-star-rating/css/star-rating.min.css';
-// import 'css-star-rating/dist/css/star-rating.min.css';
 
 const feedBack = document.querySelector('.swiper-wrapper');
 
@@ -61,13 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function createFeedBack(feedBacks) {
     const markup = feedBacks
       .map(({ _id, name, rating, descr }) => {
-        const roundedRating = Math.round(rating); // Округлення до цілого числа
+        const roundedRating = Math.round(rating);
         console.log('Rating for', name, ':', roundedRating);
         return `
           <div class="swiper-slide" data-id="${_id || ''}">
-            <div class="rating">
-              <div class="star-rating" data-rating="${roundedRating}"></div> <!-- Використовуємо округлений рейтинг -->
-            </div>
+            <div class="rating" data-rating="${roundedRating}"></div>
             <p class='feed-back-descr'>${descr || ''}</p>
             <p class='feed-back-name'>${name || ''}</p>
           </div>
@@ -76,7 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
       .join('');
 
     feedBack.innerHTML = markup;
+    initializeStarRatings(); // Ініціалізація зірок після рендерингу
     swiper.update();
+  }
+
+  function initializeStarRatings() {
+    document.querySelectorAll('.rating').forEach((element) => {
+      const rating = parseInt(element.dataset.rating);
+      if (isNaN(rating)) {
+        console.error('Invalid rating value:', element.dataset.rating);
+        return;
+      }
+      element.innerHTML = `
+        <span class="star-rating">
+          ${[...Array(5)].map((_, i) => `<span class="star ${i < rating ? 'filled' : ''}">★</span>`).join('')}
+        </span>
+      `;
+    });
   }
 
   function updateCustomBullets(index, total) {
