@@ -23,4 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
+# custom files
 pull-requests.txt
+# .temp.html

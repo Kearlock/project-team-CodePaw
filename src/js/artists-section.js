@@ -61,9 +61,9 @@ async function createCard(artist) {
   card.appendChild(img);
 
   const genresP = document.createElement('p');
-  const genresStrong = document.createElement('strong');
-  genresStrong.textContent = 'Genres: ';
-  genresP.appendChild(genresStrong);
+  // const genresStrong = document.createElement('strong');
+  // genresStrong.textContent = 'Genres: ';
+  // genresP.appendChild(genresStrong);
   const genresList = getGenres(artist);
   if (genresList.length) {
     const ul = document.createElement('ul');
