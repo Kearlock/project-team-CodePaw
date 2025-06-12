@@ -108,6 +108,12 @@
   width: 100%;
 }
 
+.load-more-icon {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+
 .hidden {
   display: none !important;
 }

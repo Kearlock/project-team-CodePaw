@@ -82,8 +82,9 @@ async function createCard(artist) {
   // learnMoreIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   // learnMoreIcon.setAttribute('viewBox', '0 0 24 24');
   learnMoreIcon.setAttribute('class', 'learn-more-icon');
-  learnMoreIcon.setAttribute('width', '24');
-  learnMoreIcon.setAttribute('height', '24');
+  learnMoreIcon.setAttribute('width', '14');
+  learnMoreIcon.setAttribute('height', '14');
+  learnMoreIcon.setAttribute('fill', 'white');
   learnMoreButton.appendChild(learnMoreIcon);
 
   const useElement = document.createElement('use');
