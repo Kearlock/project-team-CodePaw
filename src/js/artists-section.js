@@ -70,6 +70,7 @@ async function createCard(artist) {
     ul.classList.add('artist-genres-list');
     genresList.forEach(genre => {
       const li = document.createElement('li');
+      li.classList.add('genres-list-item');
       li.textContent = genre;
       ul.appendChild(li);
     });

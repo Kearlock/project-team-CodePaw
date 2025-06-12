@@ -25,4 +25,4 @@ dist-ssr
 
 # custom files
 pull-requests.txt
-# .temp.html
+.temp.html
