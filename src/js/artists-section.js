@@ -25,24 +25,6 @@ function getGenres(artist) {
   if (Array.isArray(artist.genres) && artist.genres.length > 0) {
     return artist.genres.filter(Boolean);
   }
-
-  //   const genreFields = [
-  //     'strGenre',
-  //     'strGenre2',
-  //     'strGenre3',
-  //     'strStyle',
-  //     'strMood',
-  //     'strMood2',
-  //     'strMood3',
-  //   ];
-
-  //   const genres = genreFields
-  //     .map(field => artist[field])
-  //     .filter(val => typeof val === 'string' && val.trim())
-  //     .map(val => val.trim())
-  //     .filter((val, idx, arr) => arr.indexOf(val) === idx);
-
-  //   return genres.length ? genres.join(', ') : 'N/A';
 }
 
 async function createCard(artist) {
@@ -95,6 +77,21 @@ async function createCard(artist) {
   learnMoreButton.textContent = 'Learn More';
   learnMoreButton.dataset.artistId = artist._id;
   card.appendChild(learnMoreButton);
+
+  const learnMoreIcon = document.createElement('svg');
+  // learnMoreIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  // learnMoreIcon.setAttribute('viewBox', '0 0 24 24');
+  learnMoreIcon.setAttribute('class', 'learn-more-icon');
+  learnMoreIcon.setAttribute('width', '24');
+  learnMoreIcon.setAttribute('height', '24');
+  learnMoreButton.appendChild(learnMoreIcon);
+
+  const useElement = document.createElement('use');
+  useElement.setAttribute(
+    'href',
+    `${import.meta.env.BASE_URL}img/icons.svg#icon-filled-arrow`
+  );
+  learnMoreIcon.appendChild(useElement);
 
   return card;
 }
