@@ -26,23 +26,23 @@ function getGenres(artist) {
     return artist.genres.filter(Boolean).join(', ');
   }
 
-  const genreFields = [
-    'strGenre',
-    'strGenre2',
-    'strGenre3',
-    'strStyle',
-    'strMood',
-    'strMood2',
-    'strMood3',
-  ];
+  //   const genreFields = [
+  //     'strGenre',
+  //     'strGenre2',
+  //     'strGenre3',
+  //     'strStyle',
+  //     'strMood',
+  //     'strMood2',
+  //     'strMood3',
+  //   ];
 
-  const genres = genreFields
-    .map(field => artist[field])
-    .filter(val => typeof val === 'string' && val.trim())
-    .map(val => val.trim())
-    .filter((val, idx, arr) => arr.indexOf(val) === idx);
+  //   const genres = genreFields
+  //     .map(field => artist[field])
+  //     .filter(val => typeof val === 'string' && val.trim())
+  //     .map(val => val.trim())
+  //     .filter((val, idx, arr) => arr.indexOf(val) === idx);
 
-  return genres.length ? genres.join(', ') : 'N/A';
+  //   return genres.length ? genres.join(', ') : 'N/A';
 }
 
 async function createCard(artist) {
@@ -60,18 +60,18 @@ async function createCard(artist) {
   });
   card.appendChild(img);
 
-  const h3 = document.createElement('h3');
-  h3.textContent = artist.strArtist || 'Unknown Artist';
-  card.appendChild(h3);
-
   const genresP = document.createElement('p');
   // const genresStrong = document.createElement('strong');
   // genresStrong.textContent = 'Genres: ';
   // genresP.appendChild(genresStrong);
-  // genresP.appendChild(genresStrong);
+  genresP.className = 'artist-genres';
   const genresText = document.createTextNode(getGenres(artist));
   genresP.appendChild(genresText);
   card.appendChild(genresP);
+
+  const h3 = document.createElement('h3');
+  h3.textContent = artist.strArtist || 'Unknown Artist';
+  card.appendChild(h3);
 
   const shortInfoP = document.createElement('p');
   shortInfoP.className = 'artist-description';

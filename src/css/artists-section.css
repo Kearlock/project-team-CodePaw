@@ -26,7 +26,7 @@
   /* border-radius: 10px; */
   overflow: hidden;
   padding: 0px;
-  text-align: center;
+  /* text-align: center; */
   color: #fff;
 }
 
@@ -42,6 +42,7 @@
   border-radius: 16px;
 }
 
+/* This stile doesn't work */
 .artist-card h3,
 .artist-card p,
 .artist-card button {
@@ -90,7 +91,7 @@
   .artist-card p,
   .artist-card button {
     text-align: left;
-    color: #000;
+    color: #fff;
   }
 
   .artist-card p {
