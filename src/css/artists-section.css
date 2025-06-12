@@ -79,7 +79,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  background-color: #060307;
+  background-color: #000;
   color: #fff;
   gap: 8px;
   border-radius: 12px;
@@ -88,14 +88,24 @@
   font-size: 18px;
   line-height: 1.5;
   cursor: pointer;
-  text-decoration: none;
   margin-bottom: 32px;
 }
 
+.learn-more-btn:hover {
+  background-color: #060307;
+}
+.learn-more-btn:active {
+  background-color: #fff;
+}
+
 .learn-more-icon {
-  width: 24px;
-  height: 24px;
+  width: 14px;
+  height: 14px;
   fill: #fff;
+}
+
+.learn-more-icon:active {
+  fill: #060307;
 }
 
 .load-more {
