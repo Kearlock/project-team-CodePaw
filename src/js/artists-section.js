@@ -20,10 +20,10 @@ function hideLoader() {
 }
 
 function getGenres(artist) {
-  if (!artist || typeof artist !== 'object') return 'N/A';
+  if (!artist || typeof artist !== 'object') return [];
 
   if (Array.isArray(artist.genres) && artist.genres.length > 0) {
-    return artist.genres.filter(Boolean).join(', ');
+    return artist.genres.filter(Boolean);
   }
 
   //   const genreFields = [
@@ -61,12 +61,22 @@ async function createCard(artist) {
   card.appendChild(img);
 
   const genresP = document.createElement('p');
-  // const genresStrong = document.createElement('strong');
-  // genresStrong.textContent = 'Genres: ';
-  // genresP.appendChild(genresStrong);
-  genresP.className = 'artist-genres';
-  const genresText = document.createTextNode(getGenres(artist));
-  genresP.appendChild(genresText);
+  const genresStrong = document.createElement('strong');
+  genresStrong.textContent = 'Genres: ';
+  genresP.appendChild(genresStrong);
+  const genresList = getGenres(artist);
+  if (genresList.length) {
+    const ul = document.createElement('ul');
+    ul.classList.add('artist-genres-list');
+    genresList.forEach(genre => {
+      const li = document.createElement('li');
+      li.textContent = genre;
+      ul.appendChild(li);
+    });
+    genresP.appendChild(ul);
+  } else {
+    genresP.appendChild(document.createTextNode('N/A'));
+  }
   card.appendChild(genresP);
 
   const h3 = document.createElement('h3');
