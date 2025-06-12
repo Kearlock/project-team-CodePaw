@@ -25,24 +25,6 @@ function getGenres(artist) {
   if (Array.isArray(artist.genres) && artist.genres.length > 0) {
     return artist.genres.filter(Boolean);
   }
-
-  const genreFields = [
-    'strGenre',
-    'strGenre2',
-    'strGenre3',
-    'strStyle',
-    'strMood',
-    'strMood2',
-    'strMood3',
-  ];
-
-  const genres = genreFields
-    .map(field => artist[field])
-    .filter(val => typeof val === 'string' && val.trim())
-    .map(val => val.trim())
-    .filter((val, idx, arr) => arr.indexOf(val) === idx);
-
-  return genres.length ? genres.join(', ') : 'N/A';
 }
 
 async function createCard(artist) {
@@ -60,20 +42,17 @@ async function createCard(artist) {
   });
   card.appendChild(img);
 
-  const h3 = document.createElement('h3');
-  h3.textContent = artist.strArtist || 'Unknown Artist';
-  card.appendChild(h3);
-
   const genresP = document.createElement('p');
-  const genresStrong = document.createElement('strong');
-  genresStrong.textContent = 'Genres: ';
-  genresP.appendChild(genresStrong);
+  // const genresStrong = document.createElement('strong');
+  // genresStrong.textContent = 'Genres: ';
+  // genresP.appendChild(genresStrong);
   const genresList = getGenres(artist);
   if (genresList.length) {
     const ul = document.createElement('ul');
     ul.classList.add('artist-genres-list');
     genresList.forEach(genre => {
       const li = document.createElement('li');
+      li.classList.add('genres-list-item');
       li.textContent = genre;
       ul.appendChild(li);
     });
@@ -82,6 +61,10 @@ async function createCard(artist) {
     genresP.appendChild(document.createTextNode('N/A'));
   }
   card.appendChild(genresP);
+
+  const h3 = document.createElement('h3');
+  h3.textContent = artist.strArtist || 'Unknown Artist';
+  card.appendChild(h3);
 
   const shortInfoP = document.createElement('p');
   shortInfoP.className = 'artist-description';
@@ -94,6 +77,22 @@ async function createCard(artist) {
   learnMoreButton.textContent = 'Learn More';
   learnMoreButton.dataset.artistId = artist._id;
   card.appendChild(learnMoreButton);
+
+  const learnMoreIcon = document.createElement('svg');
+  // learnMoreIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  // learnMoreIcon.setAttribute('viewBox', '0 0 24 24');
+  learnMoreIcon.setAttribute('class', 'learn-more-icon');
+  learnMoreIcon.setAttribute('width', '8');
+  learnMoreIcon.setAttribute('height', '16');
+  // learnMoreIcon.setAttribute('fill', '#fff');
+  learnMoreButton.appendChild(learnMoreIcon);
+
+  const useElement = document.createElement('use');
+  useElement.setAttribute(
+    'href',
+    `${import.meta.env.BASE_URL}img/icons.svg#icon-filled-arrow`
+  );
+  learnMoreIcon.appendChild(useElement);
 
   return card;
 }
@@ -140,7 +139,7 @@ async function loadArtistsDataAndDisplay() {
 }
 
 function initArtistSection() {
-  artistsContainer = document.getElementById('artistsContainer');
+  artistsContainer = document.getElementById('artists');
   loadMoreBtn = document.getElementById('loadMoreBtn');
 
   if (!artistsContainer || !loadMoreBtn) return;

@@ -1,45 +1,133 @@
+/* .artists-section {
+} */
+
+.artists-header {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  text-transform: capitalize;
+  margin-bottom: 16px;
+}
+
+.artists-slogan {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-bottom: 32px;
+}
+
 .artists {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
 }
 
 .artist-card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
   overflow: hidden;
-  padding: 10px;
-  text-align: center;
-  background-color: #f9f9f9;
-  transition: transform 0.3s;
-  color: #000;
-}
-
-.artist-card:hover {
-  transform: scale(1.03);
+  padding: 0px;
 }
 
 .artist-card img {
   width: 100%;
-  height: auto;
-  border-radius: 10px;
+  height: 177px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+.artist-genres-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-.artist-card h3,
-.artist-card p,
-.artist-card button {
-  color: #000;
+.genres-list-item {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: #060307;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.artist-card h3 {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.artist-description {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.learn-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  background-color: #000;
+  color: #fff;
+  gap: 8px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.5;
+  cursor: pointer;
+  margin-bottom: 32px;
+}
+
+.learn-more-btn:hover {
+  background-color: #060307;
+}
+.learn-more-btn:active {
+  background-color: #fff;
+}
+
+.learn-more-icon {
+  /* width: 14px; */
+  /* height: 14px; */
+  fill: #fff;
+}
+
+.learn-more-icon:active {
+  fill: #060307;
 }
 
 .load-more {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  height: 47px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #764191;
+  color: #fff;
+  font-weight: 500;
+  font-size: 18px;
   border: none;
-  border-radius: 5px;
+  padding: 10px 24px;
   cursor: pointer;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.load-more-icon {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
 }
 
 .hidden {
@@ -48,37 +136,36 @@
 
 /* Tablet Styles */
 @media (min-width: 768px) {
-  .artists-grid {
-    flex: 1 1 100%;
-    gap: 24px;
-    grid-template-columns: repeat(2, 1fr);
+  .artist-card img {
+    height: 433px;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .load-more {
+    width: 340px;
+    margin: 0 auto;
   }
 }
 
 /* Desktop Styles */
 @media (min-width: 1440px) {
-  .artists-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .artists {
     gap: 32px;
+    flex-wrap: wrap;
   }
-
   .artist-card {
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: calc(50% - 16px);
+  }
+  .artist-card img {
+    width: 100%;
+    height: 433px;
+    object-fit: cover;
+    object-position: top center;
   }
 
-  .artist-card h3,
-  .artist-card p,
-  .artist-card button {
-    text-align: left;
-    color: #000;
-  }
-
-  .artist-card p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .load-more {
+    width: 340px;
+    margin: 0 auto;
   }
 }
