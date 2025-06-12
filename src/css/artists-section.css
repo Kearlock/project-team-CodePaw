@@ -92,6 +92,12 @@
   margin-bottom: 32px;
 }
 
+.learn-more-icon {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+
 .load-more {
   height: 47px;
   display: flex;
