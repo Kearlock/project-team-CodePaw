@@ -65,9 +65,10 @@ async function createCard(artist) {
   card.appendChild(h3);
 
   const genresP = document.createElement('p');
-  const genresStrong = document.createElement('strong');
-  genresStrong.textContent = 'Genres: ';
-  genresP.appendChild(genresStrong);
+  // const genresStrong = document.createElement('strong');
+  // genresStrong.textContent = 'Genres: ';
+  // genresP.appendChild(genresStrong);
+  // genresP.appendChild(genresStrong);
   const genresText = document.createTextNode(getGenres(artist));
   genresP.appendChild(genresText);
   card.appendChild(genresP);
@@ -129,7 +130,7 @@ async function loadArtistsDataAndDisplay() {
 }
 
 function initArtistSection() {
-  artistsContainer = document.getElementById('artistsContainer');
+  artistsContainer = document.getElementById('artists');
   loadMoreBtn = document.getElementById('loadMoreBtn');
 
   if (!artistsContainer || !loadMoreBtn) return;
