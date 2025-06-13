@@ -1,5 +1,18 @@
 .feedback {
   scroll-margin-top: 64px;
+  padding: 64px 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .feedback {
+    padding: 64px 0;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .feedback {
+    padding: 112px 0;
+  }
 }
 
 .star {
