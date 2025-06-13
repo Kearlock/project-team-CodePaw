@@ -1,7 +1,7 @@
 import { fetchArtists } from './soundwave-api.js';
 import { openArtistModal } from './artist-details-modal.js';
 
-let offset = 0;
+let currentPage = 1;
 const limit = 8;
 
 let artistsContainer;
@@ -102,11 +102,11 @@ async function createCard(artist) {
 async function loadArtistsDataAndDisplay() {
     showLoader();
     try {
-        const data = await fetchArtists(offset, limit);
+        const data = await fetchArtists(currentPage, limit);
         const artistsArray = Array.isArray(data?.artists) ? data.artists : null;
 
         if (!artistsArray || artistsArray.length === 0) {
-            if (offset === 0) {
+            if (currentPage === 1) {
                 artistsContainer.innerHTML = '<li>No artists found.</li>';
             }
             disableLoadMoreButton();
@@ -114,7 +114,7 @@ async function loadArtistsDataAndDisplay() {
         }
 
         // Якщо це перше завантаження, очистити контейнер
-        if (offset === 0) {
+        if (currentPage === 1) {
             artistsContainer.innerHTML = '';
         }
 
@@ -123,14 +123,13 @@ async function loadArtistsDataAndDisplay() {
             artistsContainer.appendChild(card);
         }
 
-        offset += limit;
-
-        // Якщо отримано менше артистів ніж limit, значить це кінець списку
         if (artistsArray.length < limit) {
             disableLoadMoreButton();
         } else {
             enableLoadMoreButton();
         }
+
+        currentPage++;  // збільшити номер сторінки для наступного запиту
     } catch (error) {
         alert('Failed to load artists. Please try again later.');
         disableLoadMoreButton();
