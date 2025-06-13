@@ -78,14 +78,19 @@ async function createCard(artist) {
   learnMoreButton.dataset.artistId = artist._id;
   card.appendChild(learnMoreButton);
 
-  const learnMoreIcon = document.createElement('svg');
-  // learnMoreIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-  // learnMoreIcon.setAttribute('viewBox', '0 0 24 24');
+
+  const learnMoreIcon = document.createElement('p');
   learnMoreIcon.setAttribute('class', 'learn-more-icon');
-  learnMoreIcon.setAttribute('width', '8');
-  learnMoreIcon.setAttribute('height', '16');
-  // learnMoreIcon.setAttribute('fill', '#fff');
+  learnMoreIcon.textContent = '▶';
   learnMoreButton.appendChild(learnMoreIcon);
+  // const learnMoreIcon = document.createElement('svg');
+  // // learnMoreIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  // // learnMoreIcon.setAttribute('viewBox', '0 0 24 24');
+  // learnMoreIcon.setAttribute('class', 'learn-more-icon');
+  // learnMoreIcon.setAttribute('width', '8');
+  // learnMoreIcon.setAttribute('height', '16');
+  // // learnMoreIcon.setAttribute('fill', '#fff');
+  // learnMoreButton.appendChild(learnMoreIcon);
 
   const useElement = document.createElement('use');
   useElement.setAttribute(
