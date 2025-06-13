@@ -2,9 +2,7 @@
 import { fetchArtists } from './soundwave-api.js';
 import { openArtistModal } from './artist-details-modal.js';
 
-let offset = 0;
 const limit = 8;
-let allArtists = [];
 
 let artistsContainer;
 let loadMoreBtn;
@@ -25,10 +23,11 @@ function getGenres(artist) {
   if (Array.isArray(artist.genres) && artist.genres.length > 0) {
     return artist.genres.filter(Boolean);
   }
+  return [];
 }
 
 async function createCard(artist) {
-  const card = document.createElement('div');
+  const card = document.createElement('li');
   card.className = 'artist-card';
 
   const img = document.createElement('img');
@@ -43,9 +42,6 @@ async function createCard(artist) {
   card.appendChild(img);
 
   const genresP = document.createElement('p');
-  // const genresStrong = document.createElement('strong');
-  // genresStrong.textContent = 'Genres: ';
-  // genresP.appendChild(genresStrong);
   const genresList = getGenres(artist);
   if (genresList.length) {
     const ul = document.createElement('ul');
@@ -76,68 +72,61 @@ async function createCard(artist) {
   learnMoreButton.className = 'learn-more-btn';
   learnMoreButton.textContent = 'Learn More';
   learnMoreButton.dataset.artistId = artist._id;
-  card.appendChild(learnMoreButton);
 
-
-  const learnMoreIcon = document.createElement('p');
+  const learnMoreIcon = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'svg'
+  );
   learnMoreIcon.setAttribute('class', 'learn-more-icon');
-  learnMoreIcon.textContent = '▶';
-  learnMoreButton.appendChild(learnMoreIcon);
-  // const learnMoreIcon = document.createElement('svg');
-  // // learnMoreIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-  // // learnMoreIcon.setAttribute('viewBox', '0 0 24 24');
-  // learnMoreIcon.setAttribute('class', 'learn-more-icon');
-  // learnMoreIcon.setAttribute('width', '8');
-  // learnMoreIcon.setAttribute('height', '16');
-  // // learnMoreIcon.setAttribute('fill', '#fff');
-  // learnMoreButton.appendChild(learnMoreIcon);
+  learnMoreIcon.setAttribute('width', '24');
+  learnMoreIcon.setAttribute('height', '24');
 
-  const useElement = document.createElement('use');
+  const useElement = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'use'
+  );
   useElement.setAttribute(
     'href',
     `${import.meta.env.BASE_URL}img/icons.svg#icon-filled-arrow`
   );
+
   learnMoreIcon.appendChild(useElement);
+  learnMoreButton.appendChild(learnMoreIcon);
+  card.appendChild(learnMoreButton);
 
   return card;
 }
+
+let currentPage = 1;
 
 async function loadArtistsDataAndDisplay() {
   try {
     showLoader();
 
-    if (offset === 0) {
-      const data = await fetchArtists();
-      const artistsArray = Array.isArray(data?.artists) ? data.artists : null;
-      if (!artistsArray) {
-        alert('Error: Received invalid data from server.');
-        loadMoreBtn?.classList.add('hidden');
-        loadMoreBtn?.setAttribute('disabled', true);
-        return;
-      }
-      allArtists = artistsArray;
-      artistsContainer.innerHTML = '';
+    const data = await fetchArtists({ page: currentPage, limit: 8 });
+    const artistsArray = Array.isArray(data?.artists) ? data.artists : [];
+
+    if (!artistsArray.length) {
+      loadMoreBtn.classList.add('hidden');
+      loadMoreBtn.setAttribute('disabled', true);
+      return;
     }
 
-    const artistsToDisplay = allArtists.slice(offset, offset + limit);
-    for (const artist of artistsToDisplay) {
+    for (const artist of artistsArray) {
       const card = await createCard(artist);
       artistsContainer.appendChild(card);
     }
 
-    offset += limit;
+    currentPage++;
 
-    if (offset >= allArtists.length) {
-      loadMoreBtn?.classList.add('hidden');
-      loadMoreBtn?.setAttribute('disabled', true);
-    } else {
-      loadMoreBtn?.classList.remove('hidden');
-      loadMoreBtn?.removeAttribute('disabled');
+    if (artistsArray.length < 8) {
+      loadMoreBtn.classList.add('hidden');
+      loadMoreBtn.setAttribute('disabled', true);
     }
   } catch (error) {
     alert('Failed to load artists. Please try again later.');
-    loadMoreBtn?.classList.add('hidden');
-    loadMoreBtn?.setAttribute('disabled', true);
+    loadMoreBtn.classList.add('hidden');
+    loadMoreBtn.setAttribute('disabled', true);
   } finally {
     hideLoader();
   }
