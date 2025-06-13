@@ -7,7 +7,7 @@ const limit = 8;
 let artistsContainer;
 let loadMoreBtn;
 
-// ==== LOADER ====
+// Loader
 function showLoader() {
     document.body.classList.add('loading');
 }
@@ -16,7 +16,7 @@ function hideLoader() {
     document.body.classList.remove('loading');
 }
 
-// ==== BUTTON CONTROL ====
+// Button Control
 function disableLoadMoreButton() {
     loadMoreBtn.classList.add('hidden');
     loadMoreBtn.setAttribute('disabled', 'true');
@@ -27,7 +27,7 @@ function enableLoadMoreButton() {
     loadMoreBtn.removeAttribute('disabled');
 }
 
-// ==== HELPER ====
+// Helper for genres
 function getGenres(artist) {
     if (!artist || typeof artist !== 'object') return [];
     if (Array.isArray(artist.genres) && artist.genres.length > 0) {
@@ -36,7 +36,7 @@ function getGenres(artist) {
     return [];
 }
 
-// ==== CREATE ARTIST CARD ====
+// Create Artist Card
 async function createCard(artist) {
     const li = document.createElement('li');
     li.className = 'artist-card';
@@ -98,7 +98,7 @@ async function createCard(artist) {
     return li;
 }
 
-// ==== LOAD ARTISTS WITH PAGINATION ====
+// Load artists with pagination
 async function loadArtistsDataAndDisplay() {
     showLoader();
     try {
@@ -113,7 +113,6 @@ async function loadArtistsDataAndDisplay() {
             return;
         }
 
-        // Якщо це перше завантаження, очистити контейнер
         if (currentPage === 1) {
             artistsContainer.innerHTML = '';
         }
@@ -129,7 +128,7 @@ async function loadArtistsDataAndDisplay() {
             enableLoadMoreButton();
         }
 
-        currentPage++;  // збільшити номер сторінки для наступного запиту
+        currentPage++;
     } catch (error) {
         alert('Failed to load artists. Please try again later.');
         disableLoadMoreButton();
@@ -138,7 +137,7 @@ async function loadArtistsDataAndDisplay() {
     }
 }
 
-// ==== INIT ====
+// Init
 function initArtistSection() {
     artistsContainer = document.getElementById('artistsContainer');
     loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -162,4 +161,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initArtistSection();
 });
 
-export { initArtistSection };
+export { initArtistSection }
