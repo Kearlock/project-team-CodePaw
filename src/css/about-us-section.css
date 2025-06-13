@@ -1,5 +1,8 @@
-.about-container {
+.about-us {
   padding: 64px 0;
+}
+
+.about-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,7 +11,7 @@
   margin-right: 0;
   margin: 0 auto;
   height: auto;
-  gap: 48px;
+  /* gap: 48px; */
 }
 
 .about-img-pic {
@@ -23,6 +26,7 @@
   height: auto;
   border-radius: 16px;
   justify-content: center;
+  margin-bottom: 48px;
 }
 
 .about-content {
@@ -30,7 +34,7 @@
   flex-direction: column;
   width: 280px;
   height: auto;
-  gap: 20px;
+  /* gap: 20px; */
 }
 
 .about-logo-link {
@@ -42,6 +46,7 @@
   width: 64px;
   height: 64px;
   fill: white;
+  margin-bottom: 20px;
 }
 
 .about-list-title {
@@ -50,6 +55,7 @@
   line-height: 120%;
   letter-spacing: -0.01em;
   color: white;
+  margin-bottom: 20px;
 }
 
 .about-list-text {
@@ -59,17 +65,28 @@
   color: white;
 }
 
+@media (min-width: 320px) and (max-width: 374px) {
+  .about-list-title {
+    font-size: 42px;
+  }
+
+  .about-list-text {
+    font-size: 16px;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .about-container {
     width: 100%;
     padding: 64px 0;
-    gap: 24px;
+    /* gap: 24px; */
   }
 
   .about-img {
     display: flex;
     width: 100%;
     height: auto;
+    margin-bottom: 24px;
   }
 
   .about-content {
@@ -81,11 +98,16 @@
   .about-logo-pic {
     width: 80px;
     height: 80px;
+    margin-bottom: 24px;
   }
 
   .about-logo-link {
     width: 100%;
     height: 100%;
+  }
+
+  .about-list-title {
+    margin-bottom: 24px;
   }
 
   .about-list-text {
@@ -100,7 +122,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 32px;
+    /* gap: 32px; */
     padding: 112px 0;
     margin: 0 auto;
   }
@@ -110,6 +132,7 @@
     height: 664px;
     padding: 0;
     margin: 0;
+    margin-right: 32px;
   }
 
   .about-content {
