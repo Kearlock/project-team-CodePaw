@@ -17,9 +17,11 @@ api.interceptors.response.use(
   }
 );
 
-export async function fetchArtists() {
+export async function fetchArtists({ page = 1, limit = 8 } = {}) {
   try {
-    const response = await api.get('/artists');
+    const response = await api.get('/artists', {
+      params: { page, limit },
+    });
     return response.data;
   } catch (error) {
     throw error;
