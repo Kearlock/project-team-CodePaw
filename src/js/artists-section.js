@@ -3,7 +3,6 @@ import { openArtistModal } from './artist-details-modal.js';
 
 let offset = 0;
 const limit = 8;
-let allArtists = [];
 
 let artistsContainer;
 let loadMoreBtn;
@@ -17,17 +16,18 @@ function hideLoader() {
     document.body.classList.remove('loading');
 }
 
-// ==== HELPER ====
+// ==== BUTTON CONTROL ====
 function disableLoadMoreButton() {
-    loadMoreBtn?.classList.add('hidden');
-    loadMoreBtn?.setAttribute('disabled', true);
+    loadMoreBtn.classList.add('hidden');
+    loadMoreBtn.setAttribute('disabled', 'true');
 }
 
 function enableLoadMoreButton() {
-    loadMoreBtn?.classList.remove('hidden');
-    loadMoreBtn?.removeAttribute('disabled');
+    loadMoreBtn.classList.remove('hidden');
+    loadMoreBtn.removeAttribute('disabled');
 }
 
+// ==== HELPER ====
 function getGenres(artist) {
     if (!artist || typeof artist !== 'object') return [];
     if (Array.isArray(artist.genres) && artist.genres.length > 0) {
@@ -36,7 +36,7 @@ function getGenres(artist) {
     return [];
 }
 
-// ==== CARD GENERATION ====
+// ==== CREATE ARTIST CARD ====
 async function createCard(artist) {
     const li = document.createElement('li');
     li.className = 'artist-card';
@@ -46,9 +46,9 @@ async function createCard(artist) {
         artist.strArtistThumb ||
         'https://placehold.co/150x150/cccccc/333333?text=No+Image';
     img.alt = artist.strArtist || 'No Image';
-    img.addEventListener('error', function () {
-        this.src = 'https://placehold.co/150x150/cccccc/333333?text=No+Image';
-        this.alt = 'No Image Available';
+    img.addEventListener('error', () => {
+        img.src = 'https://placehold.co/150x150/cccccc/333333?text=No+Image';
+        img.alt = 'No Image Available';
     });
     li.appendChild(img);
 
@@ -66,7 +66,7 @@ async function createCard(artist) {
     if (genresList.length > 0) {
         const ul = document.createElement('ul');
         ul.classList.add('artist-genres-list');
-        genresList.forEach(genre => {
+        genresList.forEach((genre) => {
             const genreLi = document.createElement('li');
             genreLi.classList.add('genres-list-item');
             genreLi.textContent = genre;
@@ -98,31 +98,35 @@ async function createCard(artist) {
     return li;
 }
 
-// ==== MAIN FETCH AND DISPLAY ====
+// ==== LOAD ARTISTS WITH PAGINATION ====
 async function loadArtistsDataAndDisplay() {
     showLoader();
     try {
-        if (offset === 0) {
-            const data = await fetchArtists();
-            const artistsArray = Array.isArray(data?.artists) ? data.artists : null;
-            if (!artistsArray) {
-                alert('Error: Received invalid data from server.');
-                disableLoadMoreButton();
-                return;
+        const data = await fetchArtists(offset, limit);
+        const artistsArray = Array.isArray(data?.artists) ? data.artists : null;
+
+        if (!artistsArray || artistsArray.length === 0) {
+            if (offset === 0) {
+                artistsContainer.innerHTML = '<li>No artists found.</li>';
             }
-            allArtists = artistsArray;
+            disableLoadMoreButton();
+            return;
+        }
+
+        // Якщо це перше завантаження, очистити контейнер
+        if (offset === 0) {
             artistsContainer.innerHTML = '';
         }
 
-        const artistsToDisplay = allArtists.slice(offset, offset + limit);
-        for (const artist of artistsToDisplay) {
+        for (const artist of artistsArray) {
             const card = await createCard(artist);
             artistsContainer.appendChild(card);
         }
 
         offset += limit;
 
-        if (offset >= allArtists.length) {
+        // Якщо отримано менше артистів ніж limit, значить це кінець списку
+        if (artistsArray.length < limit) {
             disableLoadMoreButton();
         } else {
             enableLoadMoreButton();
@@ -142,10 +146,11 @@ function initArtistSection() {
 
     if (!artistsContainer || !loadMoreBtn) return;
 
-    loadMoreBtn.onclick = loadArtistsDataAndDisplay;
+    loadMoreBtn.addEventListener('click', loadArtistsDataAndDisplay);
+
     loadArtistsDataAndDisplay();
 
-    artistsContainer.addEventListener('click', e => {
+    artistsContainer.addEventListener('click', (e) => {
         const button = e.target.closest('.learn-more-btn');
         if (button) {
             const artistId = button.dataset.artistId;
