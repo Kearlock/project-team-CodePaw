@@ -3,7 +3,7 @@ Welcome to CodePaw's JavaScript Project Page
 Project Goal: The main goal of this project is to master Full-Stack WebApp
 development and gain hands-on experience in teamwork.
 
-Current Active GitHub Contributors: Kearlock, elentr, Hanna-Pryymak.
+Current Active GitHub Contributors: @Kearlock, @elentr, @Hanna-Pryymak.
 
 Project Workflow: [Trello Board]https://trello.com/b/KoqCC6em/project-js
 
@@ -11,23 +11,27 @@ Project Workflow: [Trello Board]https://trello.com/b/KoqCC6em/project-js
 
 Original developer team members credentials:
 
-Репозіторій, шрифти... - Тімлід @Yaroslav git stash Хедер - @Ivanna Haidai
+Репозіторій, шрифти... - Тімлід @Kearlock
 
-БургерМеню - Секція Hero - @Anastasiia Vereshchaka
+Хедер - @ivanka-haidai
 
-Секція артистів - @Viacheslav Verbytskyi
+БургерМеню - @Olar13b
 
-Секція "про нас" - @Anna P.
+Секція Hero, modal, APImodule - @Anastasia1102
 
-Секція "відгуки" - @Elen Скраммайстер
+Секція артистів - @Viacheslav1442
 
-Модалка - @Anna Chernobrovenko
+Секція "про нас" - @Hanna-Pryymak
 
-Футер - @Антон Степаненко
+Секція "відгуки" - @elentr Скраммайстер
 
-Статичні зображення (webp, retina)- @Yaroslav
+Модалка - @Anna-mir-31
 
-Іконки, логотип - @Yaroslav Olkhovskyi
+Футер - @Antoxa72009
+
+Статичні зображення (webp, retina)- @Kearlock
+
+Іконки, логотип - @Olar13b
 
 <!-- =================================================== -->
 
